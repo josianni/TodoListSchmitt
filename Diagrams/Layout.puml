@@ -1,0 +1,46 @@
+@startsalt Login
+{
+  Login    | "MyName   "
+  Password | "****     "
+  [Cancel] | [  OK   ]
+}
+@endsalt
+
+@startsalt ListTodoList
+{+
+{ <b> Schmitt Todo List}
+[ + ]
+{
+Mercado
+Projeto da Casa
+Natal
+}
+[Close]
+}
+@endsalt
+
+@startsalt DisplayItems
+{+
+{ <b> Mercado}
+[ + ]
+{
+[ ] BEBIDAS
+[ ] CARNES
+[ ] Suco de Laranja
+}
+[Return]
+}
+@endsalt
+
+@startsalt DisplayItemsOfItem
+{+
+{ <b> Mercado > BEBIDAS}
+[ + ]
+{
+[ ] Suco de Uva
+[ ] Iogurte
+[ ] Suco de Laranja
+}
+[Return]
+}
+@endsalt

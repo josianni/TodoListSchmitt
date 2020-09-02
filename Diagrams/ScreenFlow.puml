@@ -1,0 +1,31 @@
+@startuml
+
+[*] --> Login
+Login-->ListTodoList : Login success
+Login-->Login : Login failed
+
+ListTodoList-->CreateTodoList : Add
+ListTodoList-->DisplayItems : Select Todo List
+ListTodoList-->ShareTodoList : Share
+ListTodoList-->WarningDeleteMSG : Swap to delete Todo List
+
+ShareTodoList : e-mail
+ShareTodoList-->ListTodoList : Save \n Cancel
+
+CreateTodoList-->ListTodoList : Cancel
+CreateTodoList-->DisplayItems : Save
+
+DisplayItems-up->ListTodoList : Return
+DisplayItems-->ShowDetailItem : Select Item without child
+DisplayItems : ID Item
+DisplayItems : List Items
+DisplayItems-->WarningDeleteMSG : Swap to delete group
+DisplayItems->DisplayItems : Mark Item as done \n Add Item \n Create a group of items (Drag and drop to other item) \n Swap to delete Item \n Expand Item from group
+
+WarningDeleteMSG-->DisplayItems : Confirm \n Cancel
+WarningDeleteMSG-->ListTodoList : Confirm \n Cancel
+
+ShowDetailItem-->DisplayItems : Return
+ShowDetailItem-->ShowDetailItem : Save
+
+@enduml

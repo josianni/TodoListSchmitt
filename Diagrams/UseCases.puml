@@ -1,0 +1,16 @@
+@startuml
+
+User -up-> (Create Todo List)
+User -up-> (Add Item)
+User -up-> (Add group) : Group itens
+User --> (Move Item to other item)
+User --> (Mark as done Item)
+User --> (Unmark as done Item)
+
+User -> (Delete Item)
+User ->(Delete Todo List)
+
+User --> (Login)
+User --> (Share Todo List)
+
+@enduml
