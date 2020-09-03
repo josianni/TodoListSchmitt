@@ -1,0 +1,25 @@
+@startuml tables
+
+hide circle
+hide empty members
+
+class User{
+    name : String
+    email : String
+    todoLists : List<TodoListId>
+}
+
+class TodoList{
+    name : String
+    items : List<Item>
+}
+
+class Item{
+    name : String
+    done : boolean
+}
+
+User "1..N" --> "0..N" TodoList
+TodoList "1" --> "0..N" Item
+
+@enduml
