@@ -6,7 +6,7 @@ module.exports = {
     async store(req, res){
         
         const { name } = req.body;
-        const { userId } = req.headers;
+        const { userid } = req.headers;
 
         const todoListExists = await TodoList.findOne({ name });
 
@@ -18,7 +18,7 @@ module.exports = {
             name,
         });
 
-        const userExists = await User.findOne({ userId });
+        const userExists = await User.findById( userid );
 
         if(userExists) {
             userExists.todoList.push( todoList._id );
