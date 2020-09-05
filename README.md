@@ -16,3 +16,5 @@ Imports
 Pacote do Banco de dados
 `yarn add mongoose`
 
+Permite acesso do backend
+`yarn add cors`
