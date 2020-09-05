@@ -18,3 +18,17 @@ Pacote do Banco de dados
 
 Permite acesso do backend
 `yarn add cors`
+
+Rodar o Backend
+`yarn dev`
+
+Mobile
+Criar projeto
+`react-native init <nome do projeto>`
+
+Instalar App no emulador
+`react-native run-ios`
+
+Restart do projeto, entrar na pasta do projeto
+`react-native start`
+
