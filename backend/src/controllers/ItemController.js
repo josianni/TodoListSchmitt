@@ -8,8 +8,6 @@ module.exports = {
         const { name } = req.body;
         const { todolistid } = req.headers;
 
-        console.log("ID " + todolistid)
-
         const todoList = await TodoList.findById( todolistid );
 
         if(todoList) {
