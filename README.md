@@ -32,3 +32,19 @@ Instalar App no emulador
 Restart do projeto, entrar na pasta do projeto
 `react-native start`
 
+Instalar PODs, dentro da pasta ios
+`pod install`
+
+Navigation, gestos do usuário e transições de rotas animadas
+`yarn add react-navigation react-native-gesture-handler react-native-reanimated`
+
+
+Criando os métodos do Controller
+index – Lista os dados da tabela.
+show – Mostra um item específico.
+create – Retorna a View para criar um item da tabela.
+store – Salva o novo item na tabela.
+edit – Retorna a View para edição do dado.
+update – Salva a atualização do dado.
+destroy – Remove o dado.
+
