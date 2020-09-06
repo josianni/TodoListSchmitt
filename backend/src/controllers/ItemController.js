@@ -42,8 +42,6 @@ module.exports = {
             return res.status(400).json({ error: "TodoList não existe!" });
         }
 
-        console.log(todoList.items);
-
         const items = await Item.find({ _id: { $in: todoList.items } });
 
         return res.json(items);
