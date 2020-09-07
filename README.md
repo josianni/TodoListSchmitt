@@ -38,6 +38,11 @@ Instalar PODs, dentro da pasta ios
 Navigation, gestos do usuário e transições de rotas animadas
 `yarn add react-navigation react-native-gesture-handler react-native-reanimated`
 
+Armazenamento interno da aplicação
+`yarn add @react-native-community/async-storage`
+`cd ios`
+`pod install`
+
 
 Criando os métodos do Controller
 index – Lista os dados da tabela.
