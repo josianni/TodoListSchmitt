@@ -40,7 +40,7 @@ export default function Login({ navigation }) {
             <TextInput
                 style={styles.input}
                 autoCapitalize='none'
-                autoCorrect='false'
+                autoCorrect={false}
                 placeholder='Digite seu Nome'
                 placeholderTextColor='#999'
                 value={user}
@@ -49,7 +49,7 @@ export default function Login({ navigation }) {
             <TextInput
                 style={styles.input}
                 autoCapitalize='none'
-                autoCorrect='false'
+                autoCorrect={false}
                 placeholder='Digite seu e-mail'
                 placeholderTextColor='#999'
                 value={email}
