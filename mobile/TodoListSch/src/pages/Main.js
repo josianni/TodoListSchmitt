@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-community/async-storage'
-import { View, TextInput, Text, SafeAreaView, Image, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import {
+    View,
+    TextInput,
+    Text,
+    SafeAreaView,
+    Image,
+    StyleSheet,
+} from 'react-native';
 
 import api from '../services/api';
 
 import logo from '../assets/logo.png';
+import TodoListSwipe from './TodoListSwipe.js';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Axios from 'axios';
@@ -12,7 +20,7 @@ import Axios from 'axios';
 export default function Main({ navigation }) {
     const id = navigation.getParam('user');
     const [todoLists, setTodoLists] = useState([]);
-    const [todoListName, setTodoListName] = useState([]);
+    const [todoListName, setTodoListName] = useState();
 
     useEffect(() => {
         async function loadUsers() {
@@ -45,27 +53,15 @@ export default function Main({ navigation }) {
         }
     }
 
+    async function deleteTodoList(name) {
+        console.log('Delete' + name);
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity onPress={handleLogout}>
-                <Image style={styles.logo} source={logo} />
+            <TouchableOpacity style={styles.logo} onPress={handleLogout}>
+                <Image source={logo} />
             </TouchableOpacity>
-
-            <View style={styles.list}>
-                {todoLists.length === 0
-                    ? <View>
-                        <Text style={styles.bemvindo}>Bem-vindo!</Text>
-                        <Text style={styles.textNovaLista}>Crie a sua primeira lista de tarefas! </Text>
-                    </View>
-                    : (todoLists.map((todoList) => (
-                        <View key={todoLists._id} styles={styles.card}>
-                            <View style={styles.footer}>
-                                <Text style={styles.bio}>{todoList.name}</Text>
-                            </View>
-                        </View>
-                    ))
-                    )}
-            </View>
 
             <TextInput
                 style={styles.input}
@@ -78,6 +74,19 @@ export default function Main({ navigation }) {
             <TouchableOpacity onPress={createTodoList} style={styles.button}>
                 <Text style={styles.buttonText}>Criar</Text>
             </TouchableOpacity>
+
+            <View>
+                {todoLists.length === 0
+                    ? <View>
+                        <Text style={styles.bemvindo}>Bem-vindo!</Text>
+                        <Text style={styles.textNovaLista}>Crie a sua primeira lista de tarefas! </Text>
+                    </View> :
+                    (<View>
+                        <TodoListSwipe style={styles.todoListsContainer} list={todoLists} />
+                    </View>
+                    )
+                }
+            </View>
         </SafeAreaView>
     )
 }
@@ -86,8 +95,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f5f5f5',
+        alignItems: 'stretch',
         justifyContent: 'center',
-        alignItems: 'center',
+
         padding: 30
     },
     bemvindo: {
@@ -101,6 +111,10 @@ const styles = StyleSheet.create({
         color: '#999',
         fontSize: 20,
         fontWeight: 'bold'
+    },
+    logo: {
+        alignSelf: 'center', marginTop: 20
+
     },
     input: {
         height: 46,
@@ -116,7 +130,7 @@ const styles = StyleSheet.create({
     button: {
         height: 46,
         width: 200,
-        alignSelf: 'stretch',
+        alignSelf: 'center',
         backgroundColor: '#31B2BF',
         borderRadius: 4,
         marginTop: 10,
@@ -127,5 +141,8 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 16
-    }
+    },
+    todoListsContainer: {
+        alignSelf: 'stretch',
+    },
 });
