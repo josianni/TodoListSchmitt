@@ -53,10 +53,6 @@ export default function Main({ navigation }) {
         }
     }
 
-    async function deleteTodoList(name) {
-        console.log('Delete' + name);
-    }
-
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.logo} onPress={handleLogout}>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from '../services/api';
 import {
     Animated,
     Dimensions,
@@ -12,7 +13,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 
 export default function TodoListSwipe(props) {
     const [listData, setListData] = useState(
-        props.list.map((item, i) => ({ key: `${i}`, text: `${item.name}` }))
+        props.list.map((item, i) => ({ key: `${i}`, text: `${item.name}`, id: `${item._id}` }))
     );
 
     const rowTranslateAnimatedValues = {};
@@ -36,6 +37,10 @@ export default function TodoListSwipe(props) {
             }).start(() => {
                 const newData = [...listData];
                 const prevIndex = listData.findIndex(item => item.key === key);
+                console.log('List :' + key + '  ' + listData[prevIndex].id);
+
+                deleteTodoList(listData[prevIndex].id);
+
                 newData.splice(prevIndex, 1);
                 setListData(newData);
                 this.animationIsRunning = false;
@@ -76,6 +81,10 @@ export default function TodoListSwipe(props) {
             </View>
         </View>
     );
+
+    async function deleteTodoList(id) {
+        console.log('Delete' + id);
+    }
 
     return (
         <View style={styles.container}>
