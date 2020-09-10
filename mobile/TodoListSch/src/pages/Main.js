@@ -62,6 +62,20 @@ export default function Main({ navigation }) {
             <TouchableOpacity style={styles.logo} onPress={handleLogout}>
                 <Image source={logo} />
             </TouchableOpacity>
+            <Text style={styles.fontDestackH1}># APP Tarefas #</Text>
+
+            <View>
+                {todoLists.length === 0
+                    ? <View>
+                        <Text style={styles.fontDestackH1}>Bem-vindo!</Text>
+                        <Text style={styles.fontDestackH2}>Crie a sua primeira lista de tarefas! </Text>
+                    </View> :
+                    (<View>
+                        <TodoListSwipe style={styles.todoListsContainer} list={todoLists} />
+                    </View>
+                    )
+                }
+            </View>
 
             <TextInput
                 style={styles.input}
@@ -74,19 +88,6 @@ export default function Main({ navigation }) {
             <TouchableOpacity onPress={createTodoList} style={styles.button}>
                 <Text style={styles.buttonText}>Criar</Text>
             </TouchableOpacity>
-
-            <View>
-                {todoLists.length === 0
-                    ? <View>
-                        <Text style={styles.bemvindo}>Bem-vindo!</Text>
-                        <Text style={styles.textNovaLista}>Crie a sua primeira lista de tarefas! </Text>
-                    </View> :
-                    (<View>
-                        <TodoListSwipe style={styles.todoListsContainer} list={todoLists} />
-                    </View>
-                    )
-                }
-            </View>
         </SafeAreaView>
     )
 }
@@ -97,16 +98,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
         alignItems: 'stretch',
         justifyContent: 'center',
-
-        padding: 30
     },
-    bemvindo: {
+    fontDestackH1: {
         alignSelf: 'center',
         color: '#999',
         fontSize: 24,
         fontWeight: 'bold'
     },
-    textNovaLista: {
+    fontDestackH2: {
         alignSelf: 'center',
         color: '#999',
         fontSize: 20,
@@ -118,8 +117,9 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 46,
+        fontSize: 16,
         alignSelf: 'stretch',
-        backgroundColor: '#FFF',
+        backgroundColor: 'white',
         borderWidth: 1,
         borderColor: '#ddd',
         borderRadius: 4,

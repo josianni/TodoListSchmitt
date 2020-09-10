@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { BorderlessButton } from 'react-native-gesture-handler';
-
 
 export default function TodoListSwipe(props) {
     const [listData, setListData] = useState(
@@ -65,7 +63,7 @@ export default function TodoListSwipe(props) {
                 underlayColor={'#AAA'}
             >
                 <View style={styles.text}>
-                    <Text style={styles.text}>{data.item.text} in a SwipeListView</Text>
+                    <Text style={styles.text}>{data.item.text}</Text>
                 </View>
             </TouchableHighlight>
         </Animated.View>
@@ -96,20 +94,21 @@ export default function TodoListSwipe(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'red',
+        backgroundColor: '#f5f5f5',
         marginTop: 15,
         alignContent: 'stretch',
         justifyContent: 'space-between'
     },
     backTextWhite: {
-        color: '#FFF',
+        color: 'white',
+        fontWeight: 'bold',
     },
     rowFront: {
         alignItems: 'center',
-        backgroundColor: '#CCC',
-        borderBottomColor: 'black',
-        borderBottomWidth: 1,
         justifyContent: 'center',
+        backgroundColor: 'white',
+        borderBottomColor: '#ddd',
+        borderBottomWidth: 1,
         height: 50,
     },
     rowBack: {
@@ -133,6 +132,9 @@ const styles = StyleSheet.create({
         right: 0,
     },
     text: {
-        alignItems: 'stretch'
+        alignSelf: 'center',
+        fontSize: 18,
+        fontWeight: 'bold'
+
     }
 });
