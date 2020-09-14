@@ -24,7 +24,7 @@ module.exports = {
 
                 await todoList.save();
 
-                return res.json(todoList);
+                return res.json(item);
             }
         } else {
             return res.status(400).json({ error: 'Todo List não encontrada' });
