@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import {
-    View,
-    TextInput,
-    Text,
-    SafeAreaView,
-    Image,
-    StyleSheet,
-} from 'react-native';
+import { View, TextInput, Text, SafeAreaView, Image, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import api from '../services/api';
 
 import logo from '../assets/logo.png';
 import TodoListSwipe from './TodoListSwipe.js';
 
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Axios from 'axios';
-
 export default function Main({ navigation }) {
     const id = navigation.getParam('user');
     const [todoLists, setTodoLists] = useState([]);
     const [todoListName, setTodoListName] = useState();
 
+    let listSwipeJosi = todoLists.map((item, i) => ({ key: `${i}`, text: `${item.name}`, id: `${item._id}` }));
+
     useEffect(() => {
         async function loadUsers() {
-            const response = await api.get('/todoList', {
+            const response = await api.get('/todoLists', {
                 headers: {
                     userid: id,
                 }
@@ -47,7 +40,12 @@ export default function Main({ navigation }) {
             },
         });
         if (response.status === 200) {
-            setTodoListName(todoListName);
+            todoLists.push(response.data);
+
+            setTodoLists(todoLists);
+            setTodoListName();
+
+            listSwipeJosi = todoLists.map((item, i) => ({ key: `${i}`, text: `${item.name}`, id: `${item._id}` }));
         } else {
             console.log(response);
         }
@@ -59,20 +57,18 @@ export default function Main({ navigation }) {
                 <Image source={logo} />
             </TouchableOpacity>
             <Text style={styles.fontDestackH1}># APP Tarefas #</Text>
-
             <View>
                 {todoLists.length === 0
                     ? <View>
                         <Text style={styles.fontDestackH1}>Bem-vindo!</Text>
-                        <Text style={styles.fontDestackH2}>Crie a sua primeira lista de tarefas! </Text>
+                        <Text style={styles.fontDestackH2}>Crie a sua primeira lista de tarefas!</Text>
                     </View> :
                     (<View>
-                        <TodoListSwipe style={styles.todoListsContainer} list={todoLists} />
+                        <TodoListSwipe style={styles.todoListsContainer} list={listSwipeJosi} navigation={navigation} />
                     </View>
                     )
                 }
             </View>
-
             <TextInput
                 style={styles.input}
                 placeholder='Insira um nome para a sua lista de tarefas'
@@ -80,7 +76,6 @@ export default function Main({ navigation }) {
                 value={todoListName}
                 onChangeText={setTodoListName}
             />
-
             <TouchableOpacity onPress={createTodoList} style={styles.button}>
                 <Text style={styles.buttonText}>Criar</Text>
             </TouchableOpacity>

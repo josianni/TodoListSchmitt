@@ -4,7 +4,6 @@ const Item = require('../models/Item');
 module.exports = {
 
     async store(req, res) {
-
         const { name } = req.body;
         const { todolistid } = req.headers;
 

@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import {
-    Animated,
-    Dimensions,
-    StyleSheet,
-    Text,
-    TouchableHighlight,
-    View,
-} from 'react-native';
-
+import { Animated, Dimensions, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 export default function TodoListSwipe(props) {
-    const [listData, setListData] = useState(
-        props.list.map((item, i) => ({ key: `${i}`, text: `${item.name}`, id: `${item._id}` }))
-    );
+    console.log("PROPS LIST Length: " + props.list.length);
+
+    const [listData, setListData] = useState(props.list);
+
+
+    useEffect(() => {
+        async function setTodoLists() {
+            setListData(props.list);
+        }
+        setTodoLists();
+    }, [props.list.length]);
+
+
+    console.log("PROPS LIST: " + JSON.stringify(props.list));
+
+    const navigation = props.navigation;
 
     const rowTranslateAnimatedValues = {};
     Array(props.list.length)
@@ -37,8 +42,8 @@ export default function TodoListSwipe(props) {
             }).start(() => {
                 const newData = [...listData];
                 const prevIndex = listData.findIndex(item => item.key === key);
-                console.log('List :' + key + '  ' + listData[prevIndex].id);
 
+                console.log('List :' + key + '  ' + listData[prevIndex].id);
                 deleteTodoList(listData[prevIndex].id);
 
                 newData.splice(prevIndex, 1);
@@ -63,7 +68,8 @@ export default function TodoListSwipe(props) {
             ]}
         >
             <TouchableHighlight
-                onPress={() => console.log('You touched me')}
+                onPress={() => handleTodoListSelected(data.item.id)}
+                //onPress={() => console.log('You touched me' + data.item.id)}
                 style={styles.rowFront}
                 underlayColor={'#AAA'}
             >
@@ -71,7 +77,7 @@ export default function TodoListSwipe(props) {
                     <Text style={styles.text}>{data.item.text}</Text>
                 </View>
             </TouchableHighlight>
-        </Animated.View>
+        </Animated.View >
     );
 
     const renderHiddenItem = () => (
@@ -86,6 +92,12 @@ export default function TodoListSwipe(props) {
         console.log('Delete' + id);
     }
 
+    async function handleTodoListSelected(id) {
+        console.log("navigate to Items : " + id);
+        console.log("Navigation : " + navigation);
+        navigation.navigate('Items', { id });
+    }
+
     return (
         <View style={styles.container}>
             <SwipeListView
@@ -98,7 +110,7 @@ export default function TodoListSwipe(props) {
                 useNativeDriver={false}
             />
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
