@@ -64,7 +64,7 @@ export default function Main({ navigation }) {
                         <Text style={styles.fontDestackH2}>Crie a sua primeira lista de tarefas!</Text>
                     </View> :
                     (<View>
-                        <TodoListSwipe style={styles.todoListsContainer} list={listSwipeJosi} navigation={navigation} />
+                        <TodoListSwipe style={styles.todoListsContainer} list={listSwipeJosi} navigation={navigation} user={id} />
                     </View>
                     )
                 }

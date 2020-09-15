@@ -4,10 +4,8 @@ import { Animated, Dimensions, StyleSheet, Text, TouchableHighlight, View } from
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 export default function TodoListSwipe(props) {
-    console.log("PROPS LIST Length: " + props.list.length);
-
     const [listData, setListData] = useState(props.list);
-
+    const user = props.user;
 
     useEffect(() => {
         async function setTodoLists() {
@@ -15,9 +13,6 @@ export default function TodoListSwipe(props) {
         }
         setTodoLists();
     }, [props.list.length]);
-
-
-    console.log("PROPS LIST: " + JSON.stringify(props.list));
 
     const navigation = props.navigation;
 
@@ -68,7 +63,7 @@ export default function TodoListSwipe(props) {
             ]}
         >
             <TouchableHighlight
-                onPress={() => handleTodoListSelected(data.item.id)}
+                onPress={() => handleTodoListSelected(data.item)}
                 //onPress={() => console.log('You touched me' + data.item.id)}
                 style={styles.rowFront}
                 underlayColor={'#AAA'}
@@ -92,10 +87,10 @@ export default function TodoListSwipe(props) {
         console.log('Delete' + id);
     }
 
-    async function handleTodoListSelected(id) {
-        console.log("navigate to Items : " + id);
+    async function handleTodoListSelected(todoListItem) {
+        console.log("navigate to Items : " + todoListItem.id);
         console.log("Navigation : " + navigation);
-        navigation.navigate('Items', { id });
+        navigation.navigate('Items', { id: todoListItem.id, todoListText: todoListItem.text, user });
     }
 
     return (
@@ -156,6 +151,5 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         fontSize: 18,
         fontWeight: 'bold'
-
     }
 });
