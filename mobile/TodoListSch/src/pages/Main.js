@@ -56,10 +56,13 @@ export default function Main({ navigation }) {
             <TouchableOpacity style={styles.logo} onPress={handleLogout}>
                 <Image source={logo} />
             </TouchableOpacity>
-            <Text style={styles.fontDestackH1}># APP Tarefas #</Text>
+
+            <View style={styles.todoListTitle}>
+                <Text style={styles.fontDestackH1}># APP Tarefas #</Text>
+            </View>
             <View>
                 {todoLists.length === 0
-                    ? <View>
+                    ? <View style={styles.empty}>
                         <Text style={styles.fontDestackH1}>Bem-vindo!</Text>
                         <Text style={styles.fontDestackH2}>Crie a sua primeira lista de tarefas!</Text>
                     </View> :
@@ -69,16 +72,20 @@ export default function Main({ navigation }) {
                     )
                 }
             </View>
-            <TextInput
-                style={styles.input}
-                placeholder='Insira um nome para a sua lista de tarefas'
-                placeholderTextColor='#999'
-                value={todoListName}
-                onChangeText={setTodoListName}
-            />
-            <TouchableOpacity onPress={createTodoList} style={styles.button}>
-                <Text style={styles.buttonText}>Criar</Text>
-            </TouchableOpacity>
+
+            <View style={styles.container}>
+                <TextInput
+                    style={styles.input}
+                    placeholder='+ Adicionar uma nova lista de tarefas'
+                    placeholderTextColor='#999'
+                    value={todoListName}
+                    onChangeText={setTodoListName}
+                />
+                <TouchableOpacity onPress={createTodoList} style={styles.button}>
+                    <Text style={styles.buttonText}>Criar</Text>
+                </TouchableOpacity>
+            </View>
+
         </SafeAreaView>
     )
 }
@@ -88,13 +95,27 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
         alignItems: 'stretch',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
+    },
+    todoListTitle: {
+        color: '#999',
+        fontSize: 24,
+        fontWeight: 'bold',
+        borderBottomColor: '#ddd',
+        borderBottomWidth: 1,
+        marginBottom: 10
+    },
+    empty: {
+        marginTop: 200,
+        textAlignVertical: 'center',
+        justifyContent: 'center'
     },
     fontDestackH1: {
         alignSelf: 'center',
         color: '#999',
         fontSize: 24,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginBottom: 15
     },
     fontDestackH2: {
         alignSelf: 'center',

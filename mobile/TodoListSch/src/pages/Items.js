@@ -56,14 +56,16 @@ export default function Items({ navigation }) {
 
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.logo} onPress={handleGoBack}>
-                <Image source={logo} />
+                <Text style={styles.fontDestackH2}>Voltar</Text>
             </TouchableOpacity>
-            <Text style={styles.fontDestackH2}># APP Tarefas #</Text>
-            <Text style={styles.fontDestackH2}>{todoListName}</Text>
-
+            <View style={styles.todoListTitle}>
+                <Text style={styles.fontDestackH1}>{todoListName}</Text>
+            </View>
             <View>
                 {listItems.length === 0
-                    ? (<Text>Inserir novos itens</Text>)
+                    ? (<View style={styles.empty}>
+                        <Text style={styles.fontDestackH1}>Inserir novos itens</Text>
+                    </View>)
                     : (listItems.map((item, index) => (
                         <View key={item._id} style={styles.checkboxContainer}>
                             <CheckBox
@@ -79,7 +81,7 @@ export default function Items({ navigation }) {
             <View style={styles.container}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Novo item'
+                    placeholder='+ Novo item'
                     placeholderTextColor='#999'
                     value={itemName}
                     onChangeText={setItemName}
@@ -97,28 +99,43 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
         alignItems: 'stretch',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
+    },
+    empty: {
+        marginTop: 250,
+        textAlignVertical: 'center',
+        justifyContent: 'center'
+    },
+    todoListTitle: {
+        color: '#999',
+        fontSize: 24,
+        fontWeight: 'bold',
+        borderBottomColor: '#ddd',
+        borderBottomWidth: 1,
+        marginBottom: 10,
     },
     checkboxContainer: {
         flexDirection: "row",
-        marginBottom: 20,
+        marginBottom: 30,
         alignSelf: 'stretch',
         backgroundColor: 'white',
         marginHorizontal: 30,
         backgroundColor: '#f5f5f5',
+
     },
     checkbox: {
         alignSelf: "center",
     },
     label: {
-        margin: 5,
+        marginLeft: 15,
         fontSize: 18,
+        alignSelf: 'center',
     },
     fontDestackH1: {
         alignSelf: 'center',
         color: '#999',
         fontSize: 24,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     fontDestackH2: {
         alignSelf: 'center',
@@ -127,7 +144,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     logo: {
-        alignSelf: 'center', marginTop: 20
+        alignSelf: 'flex-start',
+        marginTop: 10
 
     },
     input: {
