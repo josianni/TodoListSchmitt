@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../assets/logo.png';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 import { View, TextInput, Text, SafeAreaView, Image, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CheckBox from '@react-native-community/checkbox';
@@ -12,8 +13,6 @@ export default function Items({ navigation }) {
     const [itemName, setItemName] = useState();
     const [listItems, setListItems] = useState([]);
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
-
-    console.log("Cheguei na tela de Items Todo List id: " + id);
 
     useEffect(() => {
         async function loadItems() {
@@ -29,6 +28,12 @@ export default function Items({ navigation }) {
 
     async function handleGoBack() {
         navigation.navigate('Main', { user })
+    }
+
+    async function handleLogout() {
+        await AsyncStorage.clear();
+
+        navigation.navigate('Login');
     }
 
     async function markAsDone(itemid) {
@@ -55,11 +60,14 @@ export default function Items({ navigation }) {
     return (
 
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.logo} onPress={handleGoBack}>
-                <Text style={styles.fontDestackH2}>Voltar</Text>
-            </TouchableOpacity>
             <View style={styles.todoListTitle}>
+                <TouchableOpacity onPress={handleGoBack}>
+                    <Icon style={styles.icons} name="arrow-back-ios" size={30} color="#31B2BF" />
+                </TouchableOpacity>
                 <Text style={styles.fontDestackH1}>{todoListName}</Text>
+                <TouchableOpacity onPress={handleLogout}>
+                    <Icon style={styles.icons} name="logout" size={30} color="#31B2BF" />
+                </TouchableOpacity>
             </View>
             <View>
                 {listItems.length === 0
@@ -107,12 +115,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     todoListTitle: {
-        color: '#999',
-        fontSize: 24,
-        fontWeight: 'bold',
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
-        marginBottom: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between"
     },
     checkboxContainer: {
         flexDirection: "row",
@@ -133,9 +140,9 @@ const styles = StyleSheet.create({
     },
     fontDestackH1: {
         alignSelf: 'center',
-        color: '#999',
         fontSize: 24,
         fontWeight: 'bold',
+        margin: 10
     },
     fontDestackH2: {
         alignSelf: 'center',
@@ -143,10 +150,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold'
     },
-    logo: {
-        alignSelf: 'flex-start',
-        marginTop: 10
-
+    icons: {
+        margin: 10,
     },
     input: {
         height: 46,
