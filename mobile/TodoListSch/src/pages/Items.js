@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         alignSelf: 'stretch',
         backgroundColor: 'white',
-        marginHorizontal: 30,
+        marginHorizontal: 10,
         backgroundColor: '#f5f5f5',
 
     },
