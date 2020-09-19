@@ -12,7 +12,6 @@ export default function Items({ navigation }) {
     const user = navigation.getParam('user');
     const [itemName, setItemName] = useState();
     const [listItems, setListItems] = useState([]);
-    const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
     useEffect(() => {
         async function loadItems() {
@@ -38,9 +37,6 @@ export default function Items({ navigation }) {
 
     async function markAsDone(itemid) {
         const response = await api.post('/setItemDone', { itemid })
-        if (response.status === 200) {
-            setToggleCheckBox(false);
-        }
     }
 
     async function createItem() {
@@ -119,7 +115,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginBottom: 10
     },
     checkboxContainer: {
         flexDirection: "row",
