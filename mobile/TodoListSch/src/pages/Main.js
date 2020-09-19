@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { View, TextInput, Text, SafeAreaView, Image, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -53,12 +54,17 @@ export default function Main({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.logo} onPress={handleLogout}>
+            <View style={styles.logo}>
                 <Image source={logo} />
-            </TouchableOpacity>
-
+            </View>
             <View style={styles.todoListTitle}>
-                <Text style={styles.fontDestackH1}># APP Tarefas #</Text>
+                <TouchableOpacity onPress={handleLogout}>
+                    <Icon style={styles.icons} name="arrow-back-ios" size={30} color="#31B2BF" />
+                </TouchableOpacity>
+                <Text style={styles.header}># APP Tarefas #</Text>
+                <TouchableOpacity onPress={handleLogout}>
+                    <Icon style={styles.icons} name="logout" size={30} color="#31B2BF" />
+                </TouchableOpacity>
             </View>
             <View>
                 {todoLists.length === 0
@@ -98,17 +104,24 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     todoListTitle: {
-        color: '#999',
-        fontSize: 24,
-        fontWeight: 'bold',
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
-        marginBottom: 10
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    icons: {
+        margin: 10,
     },
     empty: {
         marginTop: 200,
         textAlignVertical: 'center',
         justifyContent: 'center'
+    },
+    header: {
+        alignSelf: 'center',
+        fontSize: 24,
+        fontWeight: 'bold',
     },
     fontDestackH1: {
         alignSelf: 'center',
@@ -124,8 +137,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     logo: {
-        alignSelf: 'center', marginTop: 20
-
+        alignSelf: 'center',
     },
     input: {
         height: 46,

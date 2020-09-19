@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Animated, Dimensions, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
@@ -69,6 +70,7 @@ export default function TodoListSwipe(props) {
                 underlayColor={'#AAA'}
             >
                 <View style={styles.text}>
+                    <Icon name="format-list-bulleted" size={30} color="#31B2BF" />
                     <Text style={styles.text}>{data.item.text}</Text>
                 </View>
             </TouchableHighlight>
@@ -111,7 +113,6 @@ export default function TodoListSwipe(props) {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#f5f5f5',
-        marginTop: 15,
         alignContent: 'stretch',
         justifyContent: 'space-between'
     },
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     rowFront: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#f5f5f5',
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
         height: 50,
@@ -148,8 +149,12 @@ const styles = StyleSheet.create({
         right: 0,
     },
     text: {
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
         fontSize: 18,
-        fontWeight: 'bold'
-    }
+        fontWeight: 'bold',
+        flexDirection: "row",
+        marginHorizontal: 20,
+        marginTop: 3,
+        justifyContent: 'center'
+    },
 });

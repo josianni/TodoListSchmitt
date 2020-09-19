@@ -118,6 +118,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginBottom: 10
     },
+    icons: {
+        margin: 10,
+    },
     checkboxContainer: {
         flexDirection: "row",
         marginBottom: 30,
@@ -146,9 +149,6 @@ const styles = StyleSheet.create({
         color: '#999',
         fontSize: 20,
         fontWeight: 'bold'
-    },
-    icons: {
-        margin: 10,
     },
     input: {
         height: 46,
