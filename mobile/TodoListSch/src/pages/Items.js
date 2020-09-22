@@ -53,6 +53,10 @@ export default function Items({ navigation }) {
         }
     }
 
+    async function openDetails(itemId) {
+        console.log("Details " + itemId);
+    }
+
     return (
 
         <SafeAreaView style={styles.container}>
@@ -77,7 +81,10 @@ export default function Items({ navigation }) {
                                 value={item.done}
                                 onValueChange={() => markAsDone(item._id)}
                             />
-                            <Text style={styles.label}>{item.name}</Text>
+                            <TouchableOpacity onPress={() => openDetails(item._id)}>
+                                <Text style={styles.label}>{item.name}</Text>
+                            </TouchableOpacity>
+
                         </View>
                     ))
                     )}
