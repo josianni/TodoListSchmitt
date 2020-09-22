@@ -47,4 +47,25 @@ module.exports = {
 
         return res.json(items);
     },
+
+    async destroy(req, res) {
+        const { id } = req.body;
+
+        const subList = await Item.findById(id);
+
+        if (subList) {
+            if (subList.items.length === 0) {
+                await Item.findByIdAndDelete(id);
+                return res.status(200).json({ mensage: "SubItens deletado" });
+            } else {
+                for (i = 0; i < subList.items.length; i++) {
+                    subItem = await Item.findByIdAndDelete(subList.items[i]._id);
+                }
+
+                subList.items = [];
+                return res.status(200).json({ mensage: "SubItens deletados" });
+            }
+        }
+        return res.status(400).json({ error: "Id do item não encontrado" });
+    },
 };

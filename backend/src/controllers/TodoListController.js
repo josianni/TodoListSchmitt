@@ -44,16 +44,21 @@ module.exports = {
         return res.json(todoLists);
     },
 
+
     async destroy(req, res) {
         const { id } = req.body;
 
         const todoListExists = await TodoList.findById(id);
-        console.log(todoListExists);
-        if (todoListExists.items.size === 0) {
-            console.log("Delete");
-        } else {
-            console.log("MSG de ALERT, tem itens nessa lista!");
+
+        if (todoListExists) {
+            if (todoListExists.items.length === 0) {
+
+                await TodoList.findByIdAndDelete(id);
+                return res.status(200).json({ mensage: "Todo List deletada" });
+            } else {
+                return res.status(400).json({ error: "Tem itens nessa Todo List" });
+            }
         }
-        return res.json(todoListExists);
+        return res.status(400).json({ error: "Todo List não encontrada" });
     },
 };

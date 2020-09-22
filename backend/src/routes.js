@@ -16,6 +16,7 @@ routes.post('/item', ItemController.store);
 routes.get('/items', ItemController.index);
 routes.post('/subItem', SubItemController.store);
 routes.get('/subItems', SubItemController.index);
+routes.delete('/subItem', SubItemController.destroy);
 routes.post('/setItemDone', DoneController.store);
 
 module.exports = routes;
