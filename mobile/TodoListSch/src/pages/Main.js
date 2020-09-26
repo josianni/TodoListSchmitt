@@ -61,7 +61,7 @@ export default function Main({ navigation }) {
                 <TouchableOpacity onPress={handleLogout}>
                     <Icon style={styles.icons} name="arrow-back-ios" size={30} color="#31B2BF" />
                 </TouchableOpacity>
-                <Text style={styles.header}># APP Tarefas #</Text>
+                <Text style={styles.header}># Minha Lista de Tarefas #</Text>
                 <TouchableOpacity onPress={handleLogout}>
                     <Icon style={styles.icons} name="logout" size={30} color="#31B2BF" />
                 </TouchableOpacity>

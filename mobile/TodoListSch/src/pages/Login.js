@@ -14,7 +14,6 @@ export default function Login({ navigation }) {
     useEffect(() => {
         AsyncStorage.getItem('user').then(user => {
             if (user) {
-
                 navigation.navigate('Main', { user })
             }
         })
@@ -37,6 +36,7 @@ export default function Login({ navigation }) {
             enabled={Platform.OS === 'ios'}
         >
             <Image source={logo} />
+            <Text style={styles.fontDestackH1}># Minha Lista de Tarefas #</Text>
             <TextInput
                 style={styles.input}
                 autoCapitalize='none'
@@ -97,5 +97,12 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 16
-    }
+    },
+    fontDestackH1: {
+        alignSelf: 'center',
+        color: '#999',
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 15
+    },
 });

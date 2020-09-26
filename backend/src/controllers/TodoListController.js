@@ -56,7 +56,7 @@ module.exports = {
                 await TodoList.findByIdAndDelete(id);
                 return res.status(200).json({ mensage: "Todo List deletada" });
             } else {
-                return res.status(400).json({ error: "Tem itens nessa Todo List" });
+                return res.status(400).json({ error: "Tem itens nesta Todo List" });
             }
         }
         return res.status(400).json({ error: "Todo List não encontrada" });

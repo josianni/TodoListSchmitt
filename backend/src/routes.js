@@ -14,6 +14,7 @@ routes.delete('/todoList', TodoListController.destroy);
 routes.get('/todoLists', TodoListController.index);
 routes.post('/item', ItemController.store);
 routes.get('/items', ItemController.index);
+routes.delete('/item/:todoListId/:itemId', ItemController.destroy);
 routes.post('/subItem', SubItemController.store);
 routes.get('/subItems', SubItemController.index);
 routes.delete('/subItem', SubItemController.destroy);

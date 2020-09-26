@@ -56,6 +56,7 @@ module.exports = {
         if (subList) {
             if (subList.items.length === 0) {
                 await Item.findByIdAndDelete(id);
+                subList.items = [];
                 return res.status(200).json({ mensage: "SubItens deletado" });
             } else {
                 for (i = 0; i < subList.items.length; i++) {

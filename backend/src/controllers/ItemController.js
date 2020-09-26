@@ -47,4 +47,38 @@ module.exports = {
 
         return res.json(items);
     },
+
+    async destroy(req, res) {
+        const { todoListId } = req.params;
+        const { itemId } = req.params;
+
+        const todoList = await TodoList.findById(todoListId);
+        if (todoList) {
+            const todoListItems = todoList.items;
+
+            if (todoListItems) {
+
+                const itemList = await Item.findById(itemId);
+
+                if (itemList) {
+                    if (itemList.items.length === 0) {
+
+                        await Item.findByIdAndDelete(itemId);
+
+                        var index = todoListItems.indexOf(itemId);
+                        if (index > -1) {
+                            todoListItems.splice(index, 1);
+                            await todoList.save();
+                        }
+
+                        return res.status(200).json({ mensage: "Item deletado" });
+                    } else {
+                        return res.status(400).json({ error: "Tem sub itens neste Item" });
+                    }
+                }
+            }
+            return res.status(400).json({ error: "Id do item não encontrado" });
+        }
+        return res.status(400).json({ error: "Todo List não encontrada" });
+    },
 };

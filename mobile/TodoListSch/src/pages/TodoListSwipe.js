@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import api from '../services/api';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Animated, Dimensions, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
+
+import api from '../services/api';
 
 export default function TodoListSwipe(props) {
     const [listData, setListData] = useState(props.list);
@@ -39,8 +40,9 @@ export default function TodoListSwipe(props) {
                 const newData = [...listData];
                 const prevIndex = listData.findIndex(item => item.key === key);
 
-                console.log('List :' + key + '  ' + listData[prevIndex].id);
+
                 deleteTodoList(listData[prevIndex].id);
+
 
                 newData.splice(prevIndex, 1);
                 setListData(newData);
@@ -65,7 +67,6 @@ export default function TodoListSwipe(props) {
         >
             <TouchableHighlight
                 onPress={() => handleTodoListSelected(data.item)}
-                //onPress={() => console.log('You touched me' + data.item.id)}
                 style={styles.rowFront}
                 underlayColor={'#AAA'}
             >
@@ -86,12 +87,12 @@ export default function TodoListSwipe(props) {
     );
 
     async function deleteTodoList(id) {
-        console.log('Delete' + id);
+        console.log('Delete ' + id);
+        const response = await api.delete('/todoList', { id });
+        console.log(response.getBody);
     }
 
     async function handleTodoListSelected(todoListItem) {
-        console.log("navigate to Items : " + todoListItem.id);
-        console.log("Navigation : " + navigation);
         navigation.navigate('Items', { id: todoListItem.id, todoListText: todoListItem.text, user });
     }
 

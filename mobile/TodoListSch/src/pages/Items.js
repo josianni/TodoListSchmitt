@@ -39,6 +39,17 @@ export default function Items({ navigation }) {
         const response = await api.post('/setItemDone', { itemid })
     }
 
+    async function onDelete(itemId) {
+
+        const todoListId = id;
+        const [item, ...rest] = listItems;
+        const response = await api.delete(`/item/${todoListId}/${itemId}`);
+
+        if (response.status === 200) {
+            setListItems(rest);
+        }
+    }
+
     async function createItem() {
         const response = await api.post('/item', { name: itemName }, {
             headers: {
@@ -51,10 +62,6 @@ export default function Items({ navigation }) {
             setListItems(listItems);
             setItemName('');
         }
-    }
-
-    async function openDetails(itemId) {
-        console.log("Details " + itemId);
     }
 
     return (
@@ -76,15 +83,18 @@ export default function Items({ navigation }) {
                     </View>)
                     : (listItems.map((item, index) => (
                         <View key={item._id} style={styles.checkboxContainer}>
+
                             <CheckBox
                                 disabled={false}
                                 value={item.done}
                                 onValueChange={() => markAsDone(item._id)}
                             />
-                            <TouchableOpacity onPress={() => openDetails(item._id)}>
-                                <Text style={styles.label}>{item.name}</Text>
-                            </TouchableOpacity>
 
+                            <Text style={styles.label}>{item.name}</Text>
+
+                            <TouchableOpacity onPress={() => onDelete(item._id)} style={styles.todoListTitle}>
+                                <Text style={styles.delete}>x</Text>
+                            </TouchableOpacity>
                         </View>
                     ))
                     )}
@@ -184,4 +194,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16
     },
+    delete: {
+        width: 30,
+        alignSelf: 'center',
+        backgroundColor: '#31B2BF',
+        borderRadius: 4,
+        marginTop: 10,
+
+        flexDirection: "row",
+        justifyContent: "space-between",
+    }
 })
