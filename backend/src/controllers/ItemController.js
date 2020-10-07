@@ -15,7 +15,7 @@ module.exports = {
             for (i = 0; i < listItems.length; i++) {
                 itens = await Item.findOne(todoList.items[i]._id);
                 if (itens.name === name) {
-                    return res.status(400).json({ error: 'Este nome já foi utilizado. Escolha outro nome' });
+                    return res.status(406).json({ error: 'Este nome já foi utilizado. Escolha outro nome' });
                 }
             }
             const item = await Item.create({
@@ -29,7 +29,7 @@ module.exports = {
             return res.json(item);
 
         } else {
-            return res.status(400).json({ error: 'Todo List não encontrada' });
+            return res.status(406).json({ error: 'Todo List não encontrada' });
         }
 
     },
@@ -40,7 +40,7 @@ module.exports = {
         const todoList = await TodoList.findById(todolistid);
 
         if (!todoList) {
-            return res.status(400).json({ error: "TodoList não existe!" });
+            return res.status(406).json({ error: "TodoList não existe" });
         }
 
         const items = await Item.find({ _id: { $in: todoList.items } });
@@ -73,12 +73,12 @@ module.exports = {
 
                         return res.status(200).json({ mensage: "Item deletado" });
                     } else {
-                        return res.status(400).json({ error: "Tem sub itens neste Item" });
+                        return res.status(406).json({ error: "Tem sub itens neste Item. Primeiramente delete os sub itens" });
                     }
                 }
             }
-            return res.status(400).json({ error: "Id do item não encontrado" });
+            return res.status(406).json({ error: "Id do item não encontrado" });
         }
-        return res.status(400).json({ error: "Todo List não encontrada" });
+        return res.status(406).json({ error: "Todo List não encontrada" });
     },
 };

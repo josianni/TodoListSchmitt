@@ -6,6 +6,13 @@ module.exports = {
         const { name } = req.body;
         const { parentid } = req.headers;
 
+        if (!name) {
+            return res.status(400).json({ error: "Name não informado" });
+        }
+        if (!parentid) {
+            return res.status(400).json({ error: "ParentId não informado no header" });
+        }
+
         const itemParentList = await Item.findById(parentid);
 
         if (itemParentList) {
@@ -14,7 +21,7 @@ module.exports = {
             for (i = 0; i < listSubItems.length; i++) {
                 subItem = await Item.findOne(itemParentList.items[i]._id);
                 if (subItem.name === name) {
-                    return res.status(400).json({ error: 'Este nome já foi utilizado. Escolha outro nome' });
+                    return res.status(406).json({ error: 'Este nome já foi utilizado. Escolha outro nome' });
                 }
             }
 
@@ -29,7 +36,7 @@ module.exports = {
             return res.json(item);
 
         } else {
-            return res.status(400).json({ error: 'Parent Item List não encontrada' });
+            return res.status(406).json({ error: 'Parent Item List não encontrada' });
         }
 
     },
@@ -37,10 +44,14 @@ module.exports = {
     async index(req, res) {
         const { parentid } = req.headers;
 
+        if (!parentid) {
+            return res.status(400).json({ error: "ParentId não informado no header" });
+        }
+
         const itemParentList = await Item.findById(parentid);
 
         if (!itemParentList) {
-            return res.status(400).json({ error: "Parent Item List não existe!" });
+            return res.status(200).json({ error: "Parent Item List não existe!" });
         }
 
         const items = await Item.find({ _id: { $in: itemParentList.items } });
@@ -50,6 +61,10 @@ module.exports = {
 
     async destroy(req, res) {
         const { id } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ error: "id não informado" });
+        }
 
         const subList = await Item.findById(id);
 
@@ -67,6 +82,6 @@ module.exports = {
                 return res.status(200).json({ mensage: "SubItens deletados" });
             }
         }
-        return res.status(400).json({ error: "Id do item não encontrado" });
+        return res.status(406).json({ error: "Id do item não encontrado" });
     },
 };

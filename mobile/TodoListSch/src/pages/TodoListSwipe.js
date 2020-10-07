@@ -41,12 +41,13 @@ export default function TodoListSwipe(props) {
                 const prevIndex = listData.findIndex(item => item.key === key);
 
 
-                deleteTodoList(listData[prevIndex].id);
+                let isDeleted = onDelete(listData[prevIndex].id);
 
-
-                newData.splice(prevIndex, 1);
-                setListData(newData);
-                this.animationIsRunning = false;
+                if (isDeleted) {
+                    newData.splice(prevIndex, 1);
+                    setListData(newData);
+                    this.animationIsRunning = false;
+                }
             });
         }
     };
@@ -90,6 +91,18 @@ export default function TodoListSwipe(props) {
         console.log('Delete ' + id);
         const response = await api.delete('/todoList', { id });
         console.log(response.getBody);
+    }
+
+    async function onDelete(id) {
+        console.log('Delete ' + id);
+        const todoListId = id;
+        const response = await api.delete(`/todoList/${todoListId}`);
+
+        if (response.status === 200) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     async function handleTodoListSelected(todoListItem) {

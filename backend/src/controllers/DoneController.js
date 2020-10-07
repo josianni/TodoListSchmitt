@@ -13,7 +13,7 @@ module.exports = {
         const item = await Item.findById(itemid);
 
         if (!item) {
-            return res.status(400).json({ error: 'Item não encontrado!' });
+            return res.status(200).json({ error: 'Item não encontrado!' });
         }
 
         item.done = !item.done;

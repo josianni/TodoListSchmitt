@@ -8,10 +8,18 @@ module.exports = {
         const { name } = req.body;
         const { userid } = req.headers;
 
+        if (!name) {
+            return res.status(400).json({ error: "Name para Todo List não informado" });
+        }
+
+        if (!userid) {
+            return res.status(400).json({ error: "userid não informado no header" });
+        }
+
         const todoListExists = await TodoList.findOne({ name });
 
         if (todoListExists) {
-            return res.status(400).json({ error: 'Este nome já foi utilizado. Escolha outro nome' });
+            return res.status(406).json({ error: 'Este nome já foi utilizado. Escolha outro nome' });
         }
 
         const todoList = await TodoList.create({
@@ -32,10 +40,14 @@ module.exports = {
     async index(req, res) {
         const { userid } = req.headers;
 
+        if (!userid) {
+            return res.status(400).json({ error: "userid não informado no header" });
+        }
+
         const loggedUser = await User.findById(userid);
 
         if (!loggedUser) {
-            return res.status(400).json({ error: "Usuário não existe!" });
+            return res.status(406).json({ error: "Usuário não existe!" });
         }
 
         //Filtrar todos os Todo List do usuário logado
@@ -46,19 +58,23 @@ module.exports = {
 
 
     async destroy(req, res) {
-        const { id } = req.body;
+        const { todoListId } = req.params;
 
-        const todoListExists = await TodoList.findById(id);
+        if (!todoListId) {
+            return res.status(400).json({ error: 'Parametro todoListId não informado' });
+        }
+
+        const todoListExists = await TodoList.findById(todoListId);
 
         if (todoListExists) {
             if (todoListExists.items.length === 0) {
 
-                await TodoList.findByIdAndDelete(id);
+                await TodoList.findByIdAndDelete(todoListId);
                 return res.status(200).json({ mensage: "Todo List deletada" });
             } else {
-                return res.status(400).json({ error: "Tem itens nesta Todo List" });
+                return res.status(406).json({ error: "Tem itens nesta Todo List" });
             }
         }
-        return res.status(400).json({ error: "Todo List não encontrada" });
+        return res.status(406).json({ error: "Todo List não encontrada" });
     },
 };
