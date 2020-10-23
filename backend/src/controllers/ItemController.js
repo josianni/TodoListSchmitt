@@ -71,7 +71,7 @@ module.exports = {
                             await todoList.save();
                         }
 
-                        return res.status(200).json({ mensage: "Item deletado" });
+                        return res.status(204).json({ mensage: "Item deletado" });
                     } else {
                         return res.status(406).json({ error: "Tem sub itens neste Item. Primeiramente delete os sub itens" });
                     }

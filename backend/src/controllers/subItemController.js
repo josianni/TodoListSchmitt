@@ -72,14 +72,14 @@ module.exports = {
             if (subList.items.length === 0) {
                 await Item.findByIdAndDelete(id);
                 subList.items = [];
-                return res.status(200).json({ mensage: "SubItens deletado" });
+                return res.status(204).json({ mensage: "SubItens deletado" });
             } else {
                 for (i = 0; i < subList.items.length; i++) {
                     subItem = await Item.findByIdAndDelete(subList.items[i]._id);
                 }
 
                 subList.items = [];
-                return res.status(200).json({ mensage: "SubItens deletados" });
+                return res.status(204).json({ mensage: "SubItens deletados" });
             }
         }
         return res.status(406).json({ error: "Id do item não encontrado" });

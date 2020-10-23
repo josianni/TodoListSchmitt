@@ -36,16 +36,16 @@ export default function TodoListSwipe(props) {
                 toValue: 0,
                 duration: 200,
                 useNativeDriver: false,
-            }).start(() => {
+            }).start(async () => {
                 const newData = [...listData];
                 const prevIndex = listData.findIndex(item => item.key === key);
 
 
-                let isDeleted = onDelete(listData[prevIndex].id);
-
+                let isDeleted = await onDelete(listData[prevIndex].id, newData, prevIndex);
+                console.log('Is Deleted->     ' + isDeleted);
                 if (isDeleted) {
-                    newData.splice(prevIndex, 1);
-                    setListData(newData);
+                    //newData.splice(prevIndex, 1);
+                    //  setListData(newData);
                     this.animationIsRunning = false;
                 }
             });
@@ -87,25 +87,21 @@ export default function TodoListSwipe(props) {
         </View>
     );
 
-    async function deleteTodoList(id) {
-        console.log('Delete ' + id);
-        const response = await api.delete('/todoList', { id });
-        console.log(response.getBody);
-    }
-
-    async function onDelete(id) {
-        console.log('Delete ' + id);
+    async function onDelete(id, newData, prevIndex) {
+        console.log('------------------------------- ');
         const todoListId = id;
         const response = await api.delete(`/todoList/${todoListId}`);
-
-        if (response.status === 200) {
+        console.log('XXXXXXX Status ' + response.status);
+        if (response.status === 204) {
+            newData.splice(prevIndex, 1);
+            setListData(newData);
             return true;
         } else {
             return false;
         }
     }
 
-    async function handleTodoListSelected(todoListItem) {
+    function handleTodoListSelected(todoListItem) {
         navigation.navigate('Items', { id: todoListItem.id, todoListText: todoListItem.text, user });
     }
 

@@ -45,8 +45,13 @@ export default function Items({ navigation }) {
         const [item, ...rest] = listItems;
         const response = await api.delete(`/item/${todoListId}/${itemId}`);
 
-        if (response.status === 200) {
-            setListItems(rest);
+        if (response.status === 204) {
+            console.log("Delete item Status: " + response.status)
+            const newData = [...listItems];
+            const prevIndex = listItems.findIndex(item => item.id === id);
+            newData.splice(prevIndex, 1);
+            setListItems(newData);
+            //setListItems(rest);
         }
     }
 
@@ -89,12 +94,12 @@ export default function Items({ navigation }) {
                                 value={item.done}
                                 onValueChange={() => markAsDone(item._id)}
                             />
-
-                            <Text style={styles.label}>{item.name}</Text>
-
-                            <TouchableOpacity onPress={() => onDelete(item._id)} style={styles.todoListTitle}>
-                                <Text style={styles.delete}>x</Text>
-                            </TouchableOpacity>
+                            <View style={styles.itemList}>
+                                <Text style={styles.label}>{item.name}</Text>
+                                <TouchableOpacity onPress={() => onDelete(item._id)}>
+                                    <Icon style={styles.icons} name="delete-forever" size={30} color="#999999" />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     ))
                     )}
@@ -140,20 +145,23 @@ const styles = StyleSheet.create({
     },
     checkboxContainer: {
         flexDirection: "row",
-        marginBottom: 30,
-        alignSelf: 'stretch',
+        marginBottom: 10,
         backgroundColor: 'white',
         marginHorizontal: 10,
         backgroundColor: '#f5f5f5',
-
     },
     checkbox: {
         alignSelf: "center",
     },
+    itemList: {
+        //flexDirection: "row",
+        //alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
     label: {
         marginLeft: 15,
-        fontSize: 18,
-        alignSelf: 'center',
+        fontSize: 20,
     },
     fontDestackH1: {
         alignSelf: 'center',
@@ -194,14 +202,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16
     },
-    delete: {
-        width: 30,
-        alignSelf: 'center',
-        backgroundColor: '#31B2BF',
-        borderRadius: 4,
-        marginTop: 10,
-
-        flexDirection: "row",
-        justifyContent: "space-between",
-    }
 })

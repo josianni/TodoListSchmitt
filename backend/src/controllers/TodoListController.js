@@ -70,8 +70,10 @@ module.exports = {
             if (todoListExists.items.length === 0) {
 
                 await TodoList.findByIdAndDelete(todoListId);
-                return res.status(200).json({ mensage: "Todo List deletada" });
+                console.log(todoListExists.items.length === 0);
+                return res.status(204).json({ mensage: "Todo List deletada" });
             } else {
+                console.log(todoListExists.items.length === 0);
                 return res.status(406).json({ error: "Tem itens nesta Todo List" });
             }
         }
