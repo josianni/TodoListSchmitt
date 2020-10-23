@@ -1,4 +1,4 @@
-const TodoList = require('../models/TodoList');
+const Category = require('../models/Category');
 const User = require('../models/User');
 
 module.exports = {
@@ -16,13 +16,13 @@ module.exports = {
             return res.status(400).json({ error: "userid não informado no header" });
         }
 
-        const todoListExists = await TodoList.findOne({ name });
+        const todoListExists = await Category.findOne({ name });
 
         if (todoListExists) {
             return res.status(406).json({ error: 'Este nome já foi utilizado. Escolha outro nome' });
         }
 
-        const todoList = await TodoList.create({
+        const todoList = await Category.create({
             name,
         });
 
@@ -51,32 +51,31 @@ module.exports = {
         }
 
         //Filtrar todos os Todo List do usuário logado
-        const todoLists = await TodoList.find({ _id: { $in: loggedUser.todoList } })
+        const todoLists = await Category.find({ _id: { $in: loggedUser.todoList } })
 
         return res.json(todoLists);
     },
 
 
     async destroy(req, res) {
-        const { todoListId } = req.params;
+        const { categoryid } = req.params;
 
-        if (!todoListId) {
-            return res.status(400).json({ error: 'Parametro todoListId não informado' });
+        if (!categoryid) {
+            return res.status(400).json({ error: 'Category id not filled.' });
         }
+        const categoryExists = await Category.findById(categoryid);
 
-        const todoListExists = await TodoList.findById(todoListId);
+        if (categoryExists) {
+            if (categoryExists.items.length === 0) {
 
-        if (todoListExists) {
-            if (todoListExists.items.length === 0) {
-
-                await TodoList.findByIdAndDelete(todoListId);
-                console.log(todoListExists.items.length === 0);
-                return res.status(204).json({ mensage: "Todo List deletada" });
+                await Category.findByIdAndDelete(categoryid);
+                console.log(categoryExists.items.length === 0);
+                return res.status(204).send();
             } else {
-                console.log(todoListExists.items.length === 0);
-                return res.status(406).json({ error: "Tem itens nesta Todo List" });
+                return res.status(406).json({ error: "This Category has items. Delete the items before to delete the Category." });
             }
+        } else {
+            return res.status(406).json({ error: "Category not found." });
         }
-        return res.status(406).json({ error: "Todo List não encontrada" });
     },
 };

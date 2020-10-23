@@ -1,84 +1,83 @@
-const TodoList = require('../models/TodoList');
+const Category = require('../models/Category');
 const Item = require('../models/Item');
 
 module.exports = {
 
     async store(req, res) {
         const { name } = req.body;
-        const { todolistid } = req.headers;
+        const { categoryid } = req.headers;
 
-        const todoList = await TodoList.findById(todolistid);
+        const category = await Category.findById(categoryid);
 
-        if (todoList) {
-            const listItems = todoList.items;
-            var itens = null;
+        if (category) {
+            const listItems = category.items;
+            var items = null;
             for (i = 0; i < listItems.length; i++) {
-                itens = await Item.findOne(todoList.items[i]._id);
-                if (itens.name === name) {
-                    return res.status(406).json({ error: 'Este nome já foi utilizado. Escolha outro nome' });
+                items = await Item.findOne(category.items[i]._id);
+                if (items.name === name) {
+                    return res.json(item);
                 }
             }
             const item = await Item.create({
                 name,
             });
 
-            todoList.items.push(item._id);
+            category.items.push(item._id);
 
-            await todoList.save();
+            await category.save();
 
             return res.json(item);
 
         } else {
-            return res.status(406).json({ error: 'Todo List não encontrada' });
+            return res.status(400).json({ error: 'Category not found.' });
         }
-
     },
 
     async index(req, res) {
-        const { todolistid } = req.headers;
+        const { categoryid } = req.headers;
 
-        const todoList = await TodoList.findById(todolistid);
+        const category = await Category.findById(categoryid);
 
-        if (!todoList) {
-            return res.status(406).json({ error: "TodoList não existe" });
+        if (!category) {
+            return res.status(406).json({ error: "Category not found." });
         }
 
-        const items = await Item.find({ _id: { $in: todoList.items } });
+        const items = await Item.find({ _id: { $in: category.items } });
 
         return res.json(items);
     },
 
     async destroy(req, res) {
-        const { todoListId } = req.params;
-        const { itemId } = req.params;
+        const { categoryid } = req.params;
+        const { itemid } = req.params;
 
-        const todoList = await TodoList.findById(todoListId);
-        if (todoList) {
-            const todoListItems = todoList.items;
-
-            if (todoListItems) {
-
-                const itemList = await Item.findById(itemId);
+        const category = await Category.findById(categoryid);
+        if (category) {
+            const categoryItems = category.items;
+            if (categoryItems) {
+                const itemList = await Item.find({ itemid: { $in: category.items } });
 
                 if (itemList) {
                     if (itemList.items.length === 0) {
-
-                        await Item.findByIdAndDelete(itemId);
-
-                        var index = todoListItems.indexOf(itemId);
-                        if (index > -1) {
-                            todoListItems.splice(index, 1);
-                            await todoList.save();
+                        var index = categoryItems.findIndex(item => item._id === itemid);
+                        if (index < 0) {
+                            return res.status(406).json({ error: "Item not found." });
+                        } else {
+                            res = await Item.findByIdAndDelete(itemid);
+                            categoryItems.splice(index, 1);
+                            await category.save();
+                            return res.status(204).json({ mensage: "Item deleted." });
                         }
-
-                        return res.status(204).json({ mensage: "Item deletado" });
-                    } else {
-                        return res.status(406).json({ error: "Tem sub itens neste Item. Primeiramente delete os sub itens" });
                     }
+                } else {
+                    return res.status(406).json({ error: "Item list not found." });
                 }
+            } else {
+                return res.status(406).json({ error: "Items of Category not found." });
             }
-            return res.status(406).json({ error: "Id do item não encontrado" });
+        } else {
+            return res.status(406).json({ error: "Category not found." });
         }
-        return res.status(406).json({ error: "Todo List não encontrada" });
+
     },
 };

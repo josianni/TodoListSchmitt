@@ -7,13 +7,13 @@ module.exports = {
         const { itemid } = req.body;
 
         if (!itemid) {
-            return res.status(400).json({ error: 'Item Id não informado!' });
+            return res.status(400).json({ error: 'Item not informad.' });
         }
 
         const item = await Item.findById(itemid);
 
         if (!item) {
-            return res.status(200).json({ error: 'Item não encontrado!' });
+            return res.status(406).json({ error: 'Item not found.' });
         }
 
         item.done = !item.done;

@@ -1,7 +1,7 @@
-const {Schema, model} = require ('mongoose');
+const { Schema, model } = require('mongoose');
 
-const TodoListSchema = new Schema({
-    name:{
+const CategorySchema = new Schema({
+    name: {
         type: String,
         required: true,
     },
@@ -9,8 +9,8 @@ const TodoListSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Item',
     }]
-},{
+}, {
     timestamps: true,
 });
 
-module.exports = model('TodoList', TodoListSchema);
+module.exports = model('Category', CategorySchema);
