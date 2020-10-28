@@ -16,25 +16,25 @@ module.exports = {
             return res.status(400).json({ error: "userid não informado no header" });
         }
 
-        const todoListExists = await Category.findOne({ name });
+        const categoryExists = await Category.findOne({ name });
 
-        if (todoListExists) {
+        if (categoryExists) {
             return res.status(406).json({ error: 'Este nome já foi utilizado. Escolha outro nome' });
         }
 
-        const todoList = await Category.create({
+        const category = await Category.create({
             name,
         });
 
         const userExists = await User.findById(userid);
 
         if (userExists) {
-            userExists.todoList.push(todoList._id);
+            userExists.categoryList.push(category._id);
 
             await userExists.save();
         }
 
-        return res.json(todoList);
+        return res.status(200).json(category);
     },
 
     async index(req, res) {
@@ -50,10 +50,9 @@ module.exports = {
             return res.status(406).json({ error: "Usuário não existe!" });
         }
 
-        //Filtrar todos os Todo List do usuário logado
-        const todoLists = await Category.find({ _id: { $in: loggedUser.todoList } })
+        const categoryList = await Category.find({ _id: { $in: loggedUser.categoryList } })
 
-        return res.json(todoLists);
+        return res.status(200).json(categoryList);
     },
 
 

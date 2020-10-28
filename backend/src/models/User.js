@@ -1,19 +1,19 @@
-const {Schema, model} = require ('mongoose');
+const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema({
-    name:{
+    name: {
         type: String,
         required: true,
     },
-    email:{
+    email: {
         type: String,
         required: true,
     },
-    todoList: [{
+    categoryList: [{
         type: Schema.Types.ObjectId,
-        ref: 'TodoList',
+        ref: 'Category',
     }]
-},{
+}, {
     timestamps: true,
 });
 
