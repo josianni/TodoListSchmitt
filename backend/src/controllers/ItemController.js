@@ -55,20 +55,15 @@ module.exports = {
         if (category) {
             const categoryItems = category.items;
             if (categoryItems) {
-                const itemList = await Item.find({ itemid: { $in: category.items } });
-
+                const itemList = await Item.findById(itemid);
                 if (itemList) {
-                    if (itemList.items.length === 0) {
-                        var index = categoryItems.findIndex(item => item._id === itemid);
-                        if (index < 0) {
-                            return res.status(406).json({ error: "Item not found." });
-                        } else {
-                            res = await Item.findByIdAndDelete(itemid);
-                            categoryItems.splice(index, 1);
-                            await category.save();
-                            return res.status(204).json({ mensage: "Item deleted." });
-                        }
-                    }
+                    const index = categoryItems.indexOf(itemid);
+                    categoryItems.splice(index, 1);
+
+                    await Item.findByIdAndDelete(itemid);
+                    await category.save();
+
+                    return res.status(204).send();
                 } else {
                     return res.status(406).json({ error: "Item list not found." });
                 }
@@ -78,6 +73,5 @@ module.exports = {
         } else {
             return res.status(406).json({ error: "Category not found." });
         }
-
     },
 };
