@@ -5,48 +5,42 @@ import { View, TextInput, Text, SafeAreaView, Image, StyleSheet } from 'react-na
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import api from '../services/api';
-
 import logo from '../assets/logo.png';
-import TodoListSwipe from './TodoListSwipe.js';
 
 export default function Main({ navigation }) {
     const id = navigation.getParam('user');
-    const [todoLists, setTodoLists] = useState([]);
-    const [todoListName, setTodoListName] = useState();
-
-    let listSwipeJosi = todoLists.map((item, i) => ({ key: `${i}`, text: `${item.name}`, id: `${item._id}` }));
+    const [marketList, setMarketList] = useState([]);
+    const [marketListName, setMarketListName] = useState();
 
     useEffect(() => {
         async function loadUsers() {
-            const response = await api.get('/todoLists', {
+            const response = await api.get('/marketList', {
                 headers: {
                     userid: id,
                 }
             })
-            setTodoLists(response.data);
+            setMarketList(response.data);
         }
         loadUsers();
     }, [id]);
 
     async function handleLogout() {
         await AsyncStorage.clear();
-
         navigation.navigate('Login');
     }
 
-    async function createTodoList() {
-        const response = await api.post('/todoList', { name: todoListName }, {
+    async function createShoppingList() {
+        const response = await api.post('/marketList', { name: marketListName }, {
             headers: {
                 userid: id,
             },
         });
         if (response.status === 200) {
-            todoLists.push(response.data);
+            marketList.push(response.data);
 
-            setTodoLists(todoLists);
-            setTodoListName();
+            setMarketList(marketList);
+            setMarketListName(marketListName);
 
-            listSwipeJosi = todoLists.map((item, i) => ({ key: `${i}`, text: `${item.name}`, id: `${item._id}` }));
         } else {
             console.log(response);
         }
@@ -57,23 +51,22 @@ export default function Main({ navigation }) {
             <View style={styles.logo}>
                 <Image source={logo} />
             </View>
-            <View style={styles.todoListTitle}>
+            <View style={styles.title}>
                 <TouchableOpacity onPress={handleLogout}>
                     <Icon style={styles.icons} name="arrow-back-ios" size={30} color="#31B2BF" />
                 </TouchableOpacity>
-                <Text style={styles.header}># Minha Lista de Tarefas #</Text>
+                <Text style={styles.header}># Lista de Compras #</Text>
                 <TouchableOpacity onPress={handleLogout}>
                     <Icon style={styles.icons} name="logout" size={30} color="#31B2BF" />
                 </TouchableOpacity>
             </View>
             <View>
-                {todoLists.length === 0
+                {marketList.length === 0
                     ? <View style={styles.empty}>
                         <Text style={styles.fontDestackH1}>Bem-vindo!</Text>
-                        <Text style={styles.fontDestackH2}>Crie a sua primeira lista de tarefas!</Text>
+                        <Text style={styles.fontDestackH2}>Crie a sua primeira lista de compras!</Text>
                     </View> :
                     (<View>
-                        <TodoListSwipe style={styles.todoListsContainer} list={listSwipeJosi} navigation={navigation} user={id} />
                     </View>
                     )
                 }
@@ -82,12 +75,12 @@ export default function Main({ navigation }) {
             <View style={styles.container}>
                 <TextInput
                     style={styles.input}
-                    placeholder='+ Adicionar uma nova lista de tarefas'
+                    placeholder='+ Adicionar uma nova lista de compras'
                     placeholderTextColor='#999'
-                    value={todoListName}
-                    onChangeText={setTodoListName}
+                    value={marketListName}
+                    onChangeText={setMarketListName}
                 />
-                <TouchableOpacity onPress={createTodoList} style={styles.button}>
+                <TouchableOpacity onPress={createShoppingList} style={styles.button}>
                     <Text style={styles.buttonText}>Criar</Text>
                 </TouchableOpacity>
             </View>
@@ -103,7 +96,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         justifyContent: 'flex-end',
     },
-    todoListTitle: {
+    title: {
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
         flexDirection: "row",
@@ -165,8 +158,5 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 16
-    },
-    todoListsContainer: {
-        alignSelf: 'stretch',
     },
 });

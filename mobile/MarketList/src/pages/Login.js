@@ -36,7 +36,7 @@ export default function Login({ navigation }) {
             enabled={Platform.OS === 'ios'}
         >
             <Image source={logo} />
-            <Text style={styles.fontDestackH1}># Minha Lista de Tarefas #</Text>
+            <Text style={styles.fontDestackH1}># Minha Lista de Mercado #</Text>
             <TextInput
                 style={styles.input}
                 autoCapitalize='none'
