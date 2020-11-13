@@ -9,9 +9,9 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
-    categoryList: [{
+    marketList: [{
         type: Schema.Types.ObjectId,
-        ref: 'Category',
+        ref: 'MarketList',
     }]
 }, {
     timestamps: true,

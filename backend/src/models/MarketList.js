@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const CategorySchema = new Schema({
+const MarketListSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -13,4 +13,4 @@ const CategorySchema = new Schema({
     timestamps: true,
 });
 
-module.exports = model('Category', CategorySchema);
+module.exports = model('MarketList', MarketListSchema);
