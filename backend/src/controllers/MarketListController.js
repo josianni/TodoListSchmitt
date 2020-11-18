@@ -67,8 +67,17 @@ module.exports = {
         if (marketListExists) {
             if (marketListExists.items.length === 0) {
 
-                await MarketList.findByIdAndDelete(marketlistid);
-                console.log(marketListExists.items.length === 0);
+                const users = await User.find();
+
+                for (i = 0; i < users.length; i++) {
+                    const index = users[i].marketList.indexOf(marketlistid);
+
+                    users[i].marketList.splice(index, 1);
+
+                    await users[i].save();
+                    await MarketList.findByIdAndDelete(marketlistid);
+                }
+
                 return res.status(204).send();
             } else {
                 return res.status(406).json({ error: "This MarketList has items. Delete the items before to delete the MarketList." });
