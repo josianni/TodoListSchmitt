@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.todolistsch"
+        applicationId "com.MarketList"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -43,6 +43,19 @@ Armazenamento interno da aplicação
 `cd ios`
 `pod install`
 
+API Service
+`yarn add axios`
+
+Icones
+`yarn add react-native-vector-icons`
+`yarn react-native link`
+`cd ios`
+`pod install`
+`cd ..`
+`react-native run-ios`
+
+Checkbox
+`yarn add @react-native-community/checkbox`
 
 Criando os métodos do Controller
 index – Lista os dados da tabela.
